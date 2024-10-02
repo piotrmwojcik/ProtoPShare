@@ -42,7 +42,7 @@ coefs = {
 num_train_epochs = 20
 num_warm_epochs = 5
 
-push_start = 10
+push_start = 5
 when_push = 5
 push_epochs = [push_start + i for i in range(num_train_epochs) if i % when_push == 0]
 take_best_prototypes=True
