@@ -175,7 +175,7 @@ for epoch in range(start_epoch, num_train_epochs):
                                 target_accu=0.70, log=log, joint_optimizer=joint_optimizer, warm_optimizer=warm_optimizer,
                                 last_layer_optimizer=last_layer_optimizer)
 
-    print(epoch, push_start, push_start)
+    print(epoch, push_start, push_epochs)
     if epoch >= push_start and epoch in push_epochs:
 
         print('!!!!!')
@@ -200,7 +200,7 @@ for epoch in range(start_epoch, num_train_epochs):
                        class_specific=class_specific, log=log, sw=sw, epoch=epoch+1)
         save.save_model_w_condition(model=ppnet, model_dir=model_dir, model_name=str(epoch+1) + 'push', accu=accu,
                                    target_accu=0.70, log=log)
-        if classic_prune:
+        if True:
            prune_info = prune.prune_prototypes(dataloader=train_push_loader, prototype_network_parallel=ppnet_multi, k=6,
                                                prune_threshold=3, preprocess_input_function=preprocess_input_function,
                                                original_model_dir=model_dir, epoch_number=epoch, copy_prototype_imgs=False,
