@@ -80,6 +80,8 @@ def join_prototypes_by_activations(ppnet, p, test_loader, joint_optimizer=None, 
     assert 0 < p < 1
     ind = np.diag_indices(distances_act.shape[0])
     distances_act[ind[0], ind[1]] = np.inf
+    print('!!!')
+    print(distances_act.min(0))
     if no_p is None:
         k = torch.kthvalue(distances_act.min(0)[0].cpu(), int(p * distances_act.cpu().size(0)))[0].item()
     else:
