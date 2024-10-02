@@ -1,7 +1,7 @@
 from datetime import datetime
 
 base_architecture = 'resnet18'
-img_size = 448
+img_size = 224
 prototype_shape = (2000, 128, 1, 1)
 num_classes = 200
 prototype_activation_function = 'log'
