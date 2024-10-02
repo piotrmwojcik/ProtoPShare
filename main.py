@@ -177,6 +177,8 @@ for epoch in range(start_epoch, num_train_epochs):
 
     if epoch >= push_start and epoch in push_epochs:
 
+        print('!!!!!')
+
         push.push_prototypes(
            train_push_loader, # pytorch dataloader (must be unnormalized in [0,1])
            prototype_network_parallel=ppnet_multi, # pytorch network with prototype_vectors
