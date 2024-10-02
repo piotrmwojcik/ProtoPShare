@@ -1,6 +1,6 @@
 from datetime import datetime
 
-base_architecture = 'densenet161'
+base_architecture = 'resnet18'
 img_size = 224
 prototype_shape = (2000, 128, 1, 1)
 num_classes = 200
@@ -48,7 +48,7 @@ push_epochs = [push_start + i for i in range(num_train_epochs) if i % when_push 
 take_best_prototypes=True
 normalize_prototypes=True
 proto_percnetile = 0.1
-trained_model_path ='saved_models/densenet161/003/16push0.7860.pth'# './saved_models/resnet34/003/21_push0.7853.pth' #'./saved_models/vgg19/003/16nopush0.7620.pth'
+trained_model_path ='/data/pwojcik/ProtoPool/tenpercent_resnet18.ckpt'# './saved_models/resnet34/003/21_push0.7853.pth' #'./saved_models/vgg19/003/16nopush0.7620.pth'
 trained_optim_path =''# './21_push0.7853_optims.pth' #'./16nopush0.7620_optims.pth'
 start_epoch = 17
 anneal_lr=False
