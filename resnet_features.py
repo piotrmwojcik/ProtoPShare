@@ -1,3 +1,5 @@
+import copy
+
 import torch
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
@@ -8,6 +10,7 @@ model_urls = {
     'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
     'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
+    'resnet50Nat': 'resnet50_iNaturalist.pth',
 }
 
 model_dir = './pretrained_models'
@@ -128,15 +131,16 @@ class ResNet_features(nn.Module):
         super(ResNet_features, self).__init__()
 
         self.inplanes = 64
+        kernel_test = 7
 
         # the first convolutional layer before the structured sequence of blocks
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=kernel_test, stride=2, padding=3,
                                bias=False)
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         # comes from the first conv and the following max pool
-        self.kernel_sizes = [7, 3]
+        self.kernel_sizes = [kernel_test, 3]
         self.strides = [2, 2]
         self.paddings = [3, 1]
 
@@ -231,10 +235,16 @@ def resnet18_features(pretrained=False, **kwargs):
     """
     model = ResNet_features(BasicBlock, [2, 2, 2, 2], **kwargs)
     if pretrained:
-        my_dict = model_zoo.load_url(model_urls['resnet18'], model_dir=model_dir)
-        my_dict.pop('fc.weight')
-        my_dict.pop('fc.bias')
-        model.load_state_dict(my_dict, strict=False)
+        saved_model_dict = torch.load(model_urls['resnet18'])['state_dict']
+        model_dict = {}
+        begining = 'model.resnet.'
+        len_beg = len(begining)
+        for k in saved_model_dict.keys():
+            if k.startswith(begining):
+                key = k[len_beg:]
+                if key not in ["fc.1.weight", "fc.1.bias", "fc.3.weight", "fc.3.bias"]:
+                    model_dict[key] = saved_model_dict[k]
+        model.load_state_dict(model_dict)
     return model
 
 
@@ -252,17 +262,35 @@ def resnet34_features(pretrained=False, **kwargs):
     return model
 
 
-def resnet50_features(pretrained=False, **kwargs):
+def resnet50_features(pretrained=False, inat=False, **kwargs):
     """Constructs a ResNet-50 model.
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
     """
     model = ResNet_features(Bottleneck, [3, 4, 6, 3], **kwargs)
     if pretrained:
-        my_dict = model_zoo.load_url(model_urls['resnet50'], model_dir=model_dir)
-        my_dict.pop('fc.weight')
-        my_dict.pop('fc.bias')
-        model.load_state_dict(my_dict, strict=False)
+        if inat:
+            model_dict = torch.load(model_urls['resnet50Nat'])
+            new_model = copy.deepcopy(model_dict)
+            for k in model_dict.keys():
+                if k.startswith('module.backbone.cb_block'):
+                    splitted = k.split('cb_block')
+                    new_model['layer4.2' + splitted[-1]] = model_dict[k]
+                    del new_model[k]
+                elif k.startswith('module.backbone.rb_block'):
+                    del new_model[k]
+                elif k.startswith('module.backbone.'):
+                    splitted = k.split('backbone.')
+                    new_model[splitted[-1]] = model_dict[k]
+                    del new_model[k]
+                elif k.startswith('module.classifier'):
+                    del new_model[k]
+            model.load_state_dict(new_model, strict=True)
+        else:
+            my_dict = model_zoo.load_url(model_urls['resnet50'], model_dir=model_dir)
+            my_dict.pop('fc.weight')
+            my_dict.pop('fc.bias')
+            model.load_state_dict(my_dict, strict=False)
     return model
 
 
