@@ -175,6 +175,7 @@ for epoch in range(start_epoch, num_train_epochs):
                                 target_accu=0.70, log=log, joint_optimizer=joint_optimizer, warm_optimizer=warm_optimizer,
                                 last_layer_optimizer=last_layer_optimizer)
 
+    print(epoch, push_start, push_start)
     if epoch >= push_start and epoch in push_epochs:
 
         print('!!!!!')
