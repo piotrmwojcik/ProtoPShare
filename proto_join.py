@@ -83,11 +83,7 @@ def join_prototypes_by_activations(ppnet, p, test_loader, joint_optimizer=None, 
     if no_p is None:
         k = torch.kthvalue(distances_act.min(0)[0].cpu(), int(p * distances_act.cpu().size(0)))[0].item()
     else:
-        print('!!!')
-        print(distances_act.min(0))
-        print(torch.kthvalue(distances_act.min(0).cpu()[0], no_p))
-        print(len(torch.kthvalue(distances_act.min(0).cpu()[0], no_p)))
-        k = torch.kthvalue(distances_act.min(0)[0].cpu(), no_p)[0].item()
+        k = torch.kthvalue(distances_act.min(0)[0].cpu(), no_p).item()
     dist_iterator = 0
     no_of_prototypes = len(distances_act)
     proto_joined = []
