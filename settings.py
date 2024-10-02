@@ -10,13 +10,13 @@ add_on_layers_type = 'regular'
 experiment_run = '003'
 
 prefix = './'
-data_path = '/shared/sets/datasets/birds/'
+data_path = '/data/pwojcik/mito_work/dataset_512_protopool/'
 tensorboard_path = prefix + '/tensorboard_'+ base_architecture +'/baseline_' + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)")
 # data_path = '/Users/bartoszzielinski/Databases/birds/'
 # tensorboard_path = '/Users/bartoszzielinski/Code/PrototypeNet_results/birds/tensorboard/joining_1__' + datetime.now().strftime("%d-%b-%Y (%H:%M:%S.%f)")
-train_dir = data_path + 'train_birds_augmented/train_birds_augmented/train_birds_augmented/'
-test_dir = data_path + 'test_birds/test_birds/test_birds/'
-train_push_dir = data_path + 'train_birds/train_birds/train_birds/'
+train_dir = data_path + '/train_cropped_augmented/'
+test_dir = data_path + '/test/'
+train_push_dir = data_path + '/train/'
 train_batch_size = 60
 test_batch_size = 100
 train_push_batch_size = 75
