@@ -146,7 +146,7 @@ if optimize_last_layer:
 
     log('optimize last layer')
     tnt.last_only(model=ppnet_multi, log=log)
-    for i in range(100):
+    for i in range(15):
         log('iteration: \t{0}'.format(i))
         _ = tnt.train(model=ppnet_multi, dataloader=train_loader, optimizer=last_layer_optimizer,
                       class_specific=class_specific, coefs=coefs, log=log)
