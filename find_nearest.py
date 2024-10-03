@@ -82,6 +82,9 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
     for idx, (search_batch_input) in enumerate(dataloader):
         search_y = search_batch_input['image'][1]
         image = search_batch_input['image'][0]
+        mask = search_batch_input['mask'][0]
+        print('!!!!')
+        print(mask.shape)
 
 #        print('batch {}'.format(idx))
         if preprocess_input_function is not None:
@@ -240,7 +243,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                                  bbox_height_end=high_act_patch_indices[1],
                                  bbox_width_start=high_act_patch_indices[2],
                                  bbox_width_end=high_act_patch_indices[3], color=(0, 255, 255))
-            
+
             labels = np.array([patch.label for patch in heaps[j]])
             np.save(os.path.join(dir_for_saving_images, 'class_id.npy'),
                     labels)
