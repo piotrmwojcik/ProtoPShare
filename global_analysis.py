@@ -80,15 +80,13 @@ class ImageFolderWithFilenames(datasets.ImageFolder):
         mask_array = np.array(mask_image)
         boolean_mask = mask_array > 0  # True for non-dark pixels, False for dark pixels
 
-        # Convert the boolean mask back to a PIL Image
-        mask_image = Image.fromarray(boolean_mask.astype(np.uint8) * 255)
 
         # Apply the same transformation to the mask image as the original image
   # Apply transform to the mask
             #image = self.transform(image)  # Apply transform to the original image
 
         # Return the image, label, filename, and transformed mask
-        return {'image': (image, label), 'filename': filename, 'mask': mask_image}
+        return {'image': (image, label), 'filename': filename, 'mask': mask_array}
 
 
 # train set: do not normalize
