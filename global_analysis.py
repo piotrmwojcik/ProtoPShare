@@ -69,7 +69,7 @@ class ImageFolderWithFilenames(datasets.ImageFolder):
 
         # Construct the mask filename with 'mask_' prefix
         mask_filename = f"mask_{filename}.png"
-        mask_path = os.path.join('/data/pwojcik/mito_work/dataset_512/train/', mask_filename)
+        mask_path = os.path.join('/data/pwojcik/mito_work/dataset_512_all/', mask_filename)
 
         # Load the mask image in grayscale
         mask_image = Image.open(mask_path).convert('L')  # Convert to grayscale
