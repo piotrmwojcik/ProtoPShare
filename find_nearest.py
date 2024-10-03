@@ -116,7 +116,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                                              closest_patch_indices_in_distance_map_j,
                                              protoL_rf_info)
                     closest_patch = \
-                        search_batch_input[img_idx, :,
+                                           image[img_idx, :,
                                            closest_patch_indices_in_img[1]:closest_patch_indices_in_img[2],
                                            closest_patch_indices_in_img[3]:closest_patch_indices_in_img[4]]
                     closest_patch = closest_patch.numpy()
