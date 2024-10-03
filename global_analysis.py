@@ -1,5 +1,8 @@
 import torch
 import torch.utils.data
+import os
+from PIL import Image
+import numpy as np
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 
@@ -63,8 +66,28 @@ class ImageFolderWithFilenames(datasets.ImageFolder):
         # Get the image path and extract the filename (without extension)
         path, _ = self.imgs[index]
         filename = os.path.splitext(os.path.basename(path))[0]
-        # Return the image, label, and filename
-        return {'image': (image, label), 'filename': filename}
+
+        # Construct the mask filename with 'mask_' prefix
+        mask_filename = f"mask_{filename}.png"
+        mask_path = os.path.join('/data/pwojcik/mito_work/dataset_512/train/', mask_filename)
+
+        # Load the mask image in grayscale
+        mask_image = Image.open(mask_path).convert('L')  # Convert to grayscale
+
+        # Convert the grayscale image to a numpy array and create a boolean map
+        mask_array = np.array(mask_image)
+        boolean_mask = mask_array > 0  # True for non-dark pixels, False for dark pixels
+
+        # Convert the boolean mask back to a PIL Image
+        mask_image = Image.fromarray(boolean_mask.astype(np.uint8) * 255)
+
+        # Apply the same transformation to the mask image as the original image
+        if self.transform is not None:
+            mask_image = self.transform(mask_image)  # Apply transform to the mask
+            image = self.transform(image)  # Apply transform to the original image
+
+        # Return the image, label, filename, and transformed mask
+        return {'image': (image, label), 'filename': filename, 'mask': mask_image}
 
 
 # train set: do not normalize
