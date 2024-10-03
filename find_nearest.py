@@ -187,9 +187,11 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                            arr=patch.original_img,
                            vmin=0.0,
                            vmax=1.0)
-                import torchvision
+                #import torchvision
                 bw_array = (original_mask.astype(np.uint8) * 255)
                 from PIL import Image
+                print('!!!')
+                print(bw_array.shape)
                 bw_image = Image.fromarray(bw_array, mode='L')
                 #to_pil = torchvision.transforms.transforms.ToPILImage()
                 #msk = to_pil(patch.original_mask)
