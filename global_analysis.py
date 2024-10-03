@@ -86,7 +86,7 @@ class ImageFolderWithFilenames(datasets.ImageFolder):
             #image = self.transform(image)  # Apply transform to the original image
 
         # Return the image, label, filename, and transformed mask
-        return {'image': (image, label), 'filename': filename, 'mask': mask_array}
+        return {'image': (image, label), 'filename': filename, 'mask': boolean_mask}
 
 
 # train set: do not normalize
