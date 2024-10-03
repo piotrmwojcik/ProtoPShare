@@ -82,7 +82,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
     for idx, (search_batch_input) in enumerate(dataloader):
         search_y = search_batch_input['image'][1]
         image = search_batch_input['image'][0]
-        mask = search_batch_input['mask'][0]
+        mask = search_batch_input['mask']
         print('!!!!')
         print(image.shape)
         print(mask.shape)
