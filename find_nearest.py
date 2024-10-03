@@ -190,10 +190,10 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                 import torchvision
                 to_pil = torchvision.transforms.transforms.ToPILImage()
                 print(patch.original_mask)
-                assert np.all(patch.original_mask != 0.0)
-                msk = to_pil(patch.original_mask)
-                msk.save(os.path.join(dir_for_saving_images,
-                                              'nearest-' + str(i+1) + '_original_mask.png'))
+                print(np.all(patch.original_mask != 0.0))
+                #msk = to_pil(patch.original_mask)
+                #msk.save(os.path.join(dir_for_saving_images,
+                #                              'nearest-' + str(i+1) + '_original_mask.png'))
                 
                 # overlay (upsampled) activation on original image and save the result
                 img_size = patch.original_img.shape[0]
