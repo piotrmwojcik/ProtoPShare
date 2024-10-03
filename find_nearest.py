@@ -237,6 +237,12 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                 high_act_patch_indices = find_high_activation_crop(upsampled_act_pattern)
                 high_act_patch = patch.original_img[high_act_patch_indices[0]:high_act_patch_indices[1],
                                                     high_act_patch_indices[2]:high_act_patch_indices[3], :]
+                high_act_bw_array = (original_mask.astype(np.uint8) * 255)[high_act_patch_indices[0]:high_act_patch_indices[1],
+                                                    high_act_patch_indices[2]:high_act_patch_indices[3]]
+                from PIL import Image
+                high_act_bw_image = Image.fromarray(high_act_bw_array.squeeze(0), mode='L')
+                high_act_bw_image.save(os.path.join(dir_for_saving_images,
+                                              'nearest-' + str(i+1) + '_original_hp_mask.png'))
                 np.save(os.path.join(dir_for_saving_images,
                                      'nearest-' + str(i+1) + '_high_act_patch_indices.npy'),
                         high_act_patch_indices)
