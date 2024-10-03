@@ -10,6 +10,9 @@ pattern = os.path.join(root_dir, '**', 'nearest-*_original_hp_mask.png')
 # Use glob with recursive search
 files = glob.glob(pattern, recursive=True)
 
-# Print the list of found files
-for file_path in files:
+# Filter out files that match the "nearest-6_" pattern
+filtered_files = [file_path for file_path in files if not os.path.basename(file_path).startswith('nearest-6_')]
+
+# Print the filtered list of files
+for file_path in filtered_files:
     print(file_path)
