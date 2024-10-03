@@ -80,8 +80,6 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
         heaps.append([])
 
     for idx, (search_batch_input) in enumerate(dataloader):
-        print('!!!')
-        print(search_batch_input['image'][1])
         search_y = search_batch_input['image'][1]
         image = search_batch_input['image'][0]
 

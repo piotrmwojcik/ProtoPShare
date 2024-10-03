@@ -146,11 +146,11 @@ find_nearest.find_k_nearest_patches_to_prototypes(
         root_dir_for_saving_images=root_dir_for_saving_train_images,
         log=print)
 
-find_nearest.find_k_nearest_patches_to_prototypes(
-        dataloader=test_loader, # pytorch dataloader (must be unnormalized in [0,1])
-        prototype_network_parallel=ppnet_multi, # pytorch network with prototype_vectors
-        k=k,
-        preprocess_input_function=preprocess_input_function, # normalize if needed
-        full_save=True,
-        root_dir_for_saving_images=root_dir_for_saving_test_images,
-        log=print)
+# find_nearest.find_k_nearest_patches_to_prototypes(
+#         dataloader=test_loader, # pytorch dataloader (must be unnormalized in [0,1])
+#         prototype_network_parallel=ppnet_multi, # pytorch network with prototype_vectors
+#         k=k,
+#         preprocess_input_function=preprocess_input_function, # normalize if needed
+#         full_save=True,
+#         root_dir_for_saving_images=root_dir_for_saving_test_images,
+#         log=print)
