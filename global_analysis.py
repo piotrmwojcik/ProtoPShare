@@ -78,6 +78,8 @@ root_dir_for_saving_train_images = os.path.join(load_model_dir,
 root_dir_for_saving_test_images = os.path.join(load_model_dir,
                                                 load_model_name.split('.pth')[0] + '_nearest_test')
 makedir(root_dir_for_saving_train_images)
+print('!!!')
+print(root_dir_for_saving_train_images)
 makedir(root_dir_for_saving_test_images)
 
 # save prototypes in original images
