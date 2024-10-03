@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw as D
 import torchvision.transforms as transforms
 import torchvision
 import torch
+import torchvision.transforms.functional as F
 import numpy as np
 
 def create_boolean_mask(mask_img):
