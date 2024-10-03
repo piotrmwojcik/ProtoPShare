@@ -47,4 +47,4 @@ for file_path in filtered_files:
     msk_tensor = transforms.ToTensor()(mask)
     bool_mask = create_boolean_mask(msk_tensor)
     num_white_pixels = torch.sum(bool_mask).item()
-    print(num_white_pixels/bool_mask.shape[0] * bool_mask.shape[1])
+    print(num_white_pixels/(bool_mask.shape[0] * bool_mask.shape[1]))
