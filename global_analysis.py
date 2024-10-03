@@ -84,7 +84,7 @@ class ImageFolderWithFilenames(datasets.ImageFolder):
         # Apply the same transformation to the mask image as the original image
         if self.transform is not None:
             mask_image = self.transform(mask_image)  # Apply transform to the mask
-            image = self.transform(image)  # Apply transform to the original image
+            #image = self.transform(image)  # Apply transform to the original image
 
         # Return the image, label, filename, and transformed mask
         return {'image': (image, label), 'filename': filename, 'mask': mask_image}
