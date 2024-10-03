@@ -79,7 +79,10 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
         # a heap in python is just a maintained list
         heaps.append([])
 
-    for idx, (search_batch_input, search_y) in enumerate(dataloader):
+    for idx, (search_batch_input) in enumerate(dataloader):
+        search_y = search_batch_input['image'][1]
+        image = search_batch_input['image'][0]
+
 #        print('batch {}'.format(idx))
         if preprocess_input_function is not None:
             # print('preprocessing input for pushing ...')
@@ -119,7 +122,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                     closest_patch = closest_patch.numpy()
                     closest_patch = np.transpose(closest_patch, (1, 2, 0))
 
-                    original_img = search_batch_input[img_idx].numpy()
+                    original_img = image[img_idx].numpy()
                     original_img = np.transpose(original_img, (1, 2, 0))
 
                     if prototype_network_parallel.module.prototype_activation_function == 'log':

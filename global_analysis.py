@@ -51,8 +51,24 @@ train_dir = train_push_dir
 
 batch_size = 100
 
+class ImageFolderWithFilenames(datasets.ImageFolder):
+    def __init__(self, root, transform=None):
+        # Initialize the parent class with the provided root and transform
+        super().__init__(root, transform=transform)
+
+    def __getitem__(self, index):
+        # Get the original output from ImageFolder (image and label)
+        image, label = super().__getitem__(index)
+
+        # Get the image path and extract the filename (without extension)
+        path, _ = self.imgs[index]
+        filename = os.path.splitext(os.path.basename(path))[0]
+        # Return the image, label, and filename
+        return {'image': (image, label), 'filename': filename}
+
+
 # train set: do not normalize
-train_dataset = datasets.ImageFolder(
+train_dataset = ImageFolderWithFilenames(
     train_dir,
     transforms.Compose([
         transforms.Resize(size=(img_size, img_size)),
