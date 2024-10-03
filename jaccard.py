@@ -46,3 +46,4 @@ for file_path in filtered_files:
     mask = Image.open(file_path).convert("RGB")
     msk_tensor = transforms.ToTensor()(mask)
     bool_mask = create_boolean_mask(msk_tensor)
+    print(bool_mask.shape[0] * bool_mask.shape[1])
