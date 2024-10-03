@@ -73,6 +73,8 @@ class ImageFolderWithFilenames(datasets.ImageFolder):
 
         # Load the mask image in grayscale
         mask_image = Image.open(mask_path).convert('L')  # Convert to grayscale
+        if self.transform is not None:
+            mask_image = self.transform(mask_image)
 
         # Convert the grayscale image to a numpy array and create a boolean map
         mask_array = np.array(mask_image)
@@ -82,8 +84,7 @@ class ImageFolderWithFilenames(datasets.ImageFolder):
         mask_image = Image.fromarray(boolean_mask.astype(np.uint8) * 255)
 
         # Apply the same transformation to the mask image as the original image
-        if self.transform is not None:
-            mask_image = self.transform(mask_image)  # Apply transform to the mask
+  # Apply transform to the mask
             #image = self.transform(image)  # Apply transform to the original image
 
         # Return the image, label, filename, and transformed mask
