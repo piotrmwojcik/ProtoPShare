@@ -27,12 +27,13 @@ def imsave_with_bbox(fname, img_rgb, bbox_height_start, bbox_height_end,
 class ImagePatch:
 
     def __init__(self, patch, label, distance,
-                 original_img=None, act_pattern=None, patch_indices=None):
+                 original_img=None, original_mask=None, act_pattern=None, patch_indices=None):
         self.patch = patch
         self.label = label
         self.negative_distance = -distance
 
         self.original_img = original_img
+        self.original_mask = original_mask
         self.act_pattern = act_pattern
         self.patch_indices = patch_indices
 
@@ -83,9 +84,6 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
         search_y = search_batch_input['image'][1]
         image = search_batch_input['image'][0]
         mask = search_batch_input['mask']
-        print('!!!!')
-        print(image.shape)
-        print(mask.shape)
 
 #        print('batch {}'.format(idx))
         if preprocess_input_function is not None:
@@ -127,6 +125,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                     closest_patch = np.transpose(closest_patch, (1, 2, 0))
 
                     original_img = image[img_idx].numpy()
+                    original_mask = mask[img_idx].numpy()
                     original_img = np.transpose(original_img, (1, 2, 0))
 
                     if prototype_network_parallel.module.prototype_activation_function == 'log':
@@ -144,6 +143,7 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                                                label=search_y[img_idx],
                                                distance=closest_patch_distance_to_prototype_j,
                                                original_img=original_img,
+                                               original_mask=original_mask,
                                                act_pattern=act_pattern,
                                                patch_indices=patch_indices)
                 else:
@@ -187,6 +187,11 @@ def find_k_nearest_patches_to_prototypes(dataloader, # pytorch dataloader (must 
                            arr=patch.original_img,
                            vmin=0.0,
                            vmax=1.0)
+                import torchvision
+                to_pil = torchvision.transforms.transforms.ToPILImage()
+                msk = to_pil(patch.original_mask)
+                msk.save(fname=os.path.join(dir_for_saving_images,
+                                              'nearest-' + str(i+1) + '_original_mask.png'))
                 
                 # overlay (upsampled) activation on original image and save the result
                 img_size = patch.original_img.shape[0]
